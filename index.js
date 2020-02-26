@@ -1,4 +1,6 @@
 const express = require('express');
+const morgan = require('morgan');
+const config = require('config');
 const app = express();
 const Joi = require('joi');
 const validation = require('./validation');
@@ -10,6 +12,11 @@ const movieGeneres = [
 ]
 
 app.use(express.json());
+app.use(express.static('public'));
+app.use(morgan('tiny'));
+
+console.log(config.get('name'));
+console.log(config.get('mail.password'));
 
 const schemaGenereName = {
     name: Joi.string().min(3).required()
