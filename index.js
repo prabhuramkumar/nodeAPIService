@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const config = require('config');
+const helmet = require('helmet');
 const app = express();
 const Joi = require('joi');
 const validation = require('./validation');
@@ -14,6 +15,7 @@ const movieGeneres = [
 app.use(express.json());
 app.use(express.static('public'));
 app.use(morgan('tiny'));
+app.use(helmet());
 
 console.log(config.get('name'));
 console.log(config.get('mail.password'));
