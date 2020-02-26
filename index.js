@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const Joi = require('joi');
+const validation = require('./validation');
 const port = process.env.port || '4000';
 const movieGeneres = [
     {"name": "Thriller","id": "1"},
@@ -10,28 +11,10 @@ const movieGeneres = [
 
 app.use(express.json());
 
-const validationGenereName = (input, res) => {
-    const schema = {
-        name: Joi.string().min(3).required()
-    }
-    const validationResult =  Joi.validate(input, schema);
-    if(validationResult.error){
-        res.status(400).send(validationResult.error.details[0].message)
-        return false;
-    }
-    return true;
+const schemaGenereName = {
+    name: Joi.string().min(3).required()
 }
-
-const validationGenereID = (input, res) => {
-    const schema = Joi.number().required();
-    
-    const validationResult =  Joi.validate(input, schema);
-    if(validationResult.error){
-        res.status(400).send(validationResult.error.details[0].message)
-        return false;
-    }
-    return true;
-}
+const schemaGenereID = Joi.number().required();
 
 app.get('/', function (req, res) {
     res.send('Hello World');
@@ -42,18 +25,20 @@ app.get('/api/generes', function (req, res) {
 });
 
 app.post('/api/generes', function (req, res) {
-    if(validationGenereName(req.body, res)) {
+    if(validation(req.body, schemaGenereName)) {
         const newGenere = {
             id: movieGeneres.length + 1,
             name: req.body.name
         }
         movieGeneres.push(newGenere);
         res.send(newGenere);
+    }else{
+        res.status(400).send(validationResult.error.details[0].message);
     }
 });
 
 app.put('/api/generes/:id', function (req, res) {
-    if(validationGenereName(req.body, res)) {
+    if(validation(req.body, schemaGenereName)) {
         const genere = movieGeneres.find(movie => movie.id === req.params.id);
         if(!genere) {
             res.status(404).send("Genere not found.");
@@ -61,11 +46,13 @@ app.put('/api/generes/:id', function (req, res) {
         }
         genere.name = req.body.name;
         res.send(genere);
+    }else{
+        res.status(400).send(validationResult.error.details[0].message);
     }
 });
 
 app.delete('/api/generes/:id', function (req, res) {
-    if(validationGenereID(req.params.id, res)) {
+    if(validation(req.params.id, schemaGenereID)) {
         const genere = movieGeneres.find(movie => movie.id === req.params.id);
         if(!genere) {
             res.status(404).send("Genere not found.");
