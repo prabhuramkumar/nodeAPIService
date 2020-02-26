@@ -1,1 +1,6 @@
-{"name": "Node API Project - default"}
+{
+    "name": "Node API Project - default", 
+    "mail": {
+        "password": "app_password"
+    }
+}
