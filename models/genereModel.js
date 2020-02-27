@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const genereSchema = new mongoose.Schema({
-    id: Number,
     name: String
 });
 
