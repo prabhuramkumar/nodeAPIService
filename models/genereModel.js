@@ -7,10 +7,19 @@ const genereSchema = new mongoose.Schema({
 
 const genereModel = new mongoose.model('genere', genereSchema);
 
+const schemaGenereName = {
+    name: Joi.string().min(3).required()
+}
+const schemaGenereID = Joi.string().min(7).required();
 
-const validation = (input, schema) => {
-    const validationResult =  Joi.validate(input, schema);
-    return validationResult.error ? false : true;
+const validateName = (input) => {
+    const validationResult =  Joi.validate(input, schemaGenereName);
+    return validationResult.error;
 }
 
-module.exports = {genereModel, validation};
+const validateID = (input) => {
+    const validationResult =  Joi.validate(input, schemaGenereID);
+    return validationResult.error;
+}
+
+module.exports = {genereModel, validateName, validateID};
