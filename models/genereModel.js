@@ -5,7 +5,7 @@ const genereSchema = new mongoose.Schema({
     name: String
 });
 
-const genereModel = new mongoose.model('genere', genereSchema);
+const genereModel = new mongoose.model('generes', genereSchema);
 
 const schemaGenereName = {
     name: Joi.string().min(3).required()
@@ -22,4 +22,4 @@ const validateID = (input) => {
     return validationResult.error;
 }
 
-module.exports = {genereModel, validateName, validateID};
+module.exports = {genereModel, genereSchema, validateName, validateID};
