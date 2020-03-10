@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
     if(!token) return res.status(401).send('Access Denied, No token Provided');
     try{
         const decoded = jwt.verify(token, 'thoughtworks');
-        req.decoded = decoded;
+        req.user = decoded;
         next();
     }catch(e) {
         return res.status(401).send('Invalid token');

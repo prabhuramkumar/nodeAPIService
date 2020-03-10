@@ -1,4 +1,6 @@
 const express = require('express');
+const admin = require('../middleware/adminMiddleware');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const Joi = require('joi');
 const {genereModel, validateName, validateID} = require('../models/genereModel');
@@ -8,8 +10,7 @@ router.get('/', async function (req, res) {
     res.send(movieGeneresList);
 });
 
-router.post('/', async function (req, res) {
-    console.log("rew", req.body);
+router.post('/', [auth, admin], async function (req, res) {
     const error = validateName(req.body);
     if(error) return res.status(400).send("validation error");
 
@@ -20,7 +21,7 @@ router.post('/', async function (req, res) {
     res.send(newGenere);
 });
 
-router.put('/:id', async function (req, res) {
+router.put('/:id',[auth, admin], async function (req, res) {
     const error = validateName(req.body)
     if(error) return res.status(400).send("Validation Error");
         
@@ -28,7 +29,7 @@ router.put('/:id', async function (req, res) {
     res.send(genere);
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id',[auth, admin], async function (req, res) {
     const error = validateID(req.params.id)
     if(error) return res.status(400).send("Validation Error");
 

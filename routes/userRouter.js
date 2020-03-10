@@ -5,7 +5,7 @@ const {userModel, validateUser} = require('../models/userModel');
 
 
 router.get('/',  async function (req, res) {
-    const users =  await userModel.find().select('name email');
+    const users =  await userModel.find().select('name email isAdmin');
     res.send(users);
 });
 
@@ -20,7 +20,8 @@ router.post('/',  async function (req, res) {
         {
             name: req.body.name,
             email: req.body.email,
-            password: hashPassword
+            password: hashPassword,
+            isAdmin: req.body.isAdmin || false
         }
     );
     await newUser.save();

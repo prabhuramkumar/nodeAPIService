@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const genereSchema = new mongoose.Schema({
-    name: String
+    name: {
+        type: String,
+        unique: true
+    }
 });
 
 const genereModel = new mongoose.model('generes', genereSchema);
