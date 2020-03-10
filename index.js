@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const generesRouter = require('./routes/genresRouter');
 const movieListRouter = require('./routes/movieListRouter');
 const userRouter = require('./routes/userRouter');
-const authentication = require('./routes/auth');
+const login = require('./routes/loginRouter');
 
 const app = express();
 const port = process.env.port || '4000';
@@ -29,7 +29,7 @@ console.log(config.get('name'));
 app.use('/api/generes', generesRouter);
 app.use('/api/movies', movieListRouter);
 app.use('/api/register', userRouter);
-app.use('/api/auth', authentication);
+app.use('/api/login', login);
 app.use(error);
 
 app.listen(port, ()=> {

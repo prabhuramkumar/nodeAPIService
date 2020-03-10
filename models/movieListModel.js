@@ -7,10 +7,11 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
-        maxlength: 100
+        minlength: 1,
+        maxlength: 100,
+        unique: true
     },
-    genere: {
+    genereID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'generes',
         required: true
@@ -27,7 +28,7 @@ const movieSchema = new mongoose.Schema({
     }
 });
 
-const movieModel = new mongoose.model('moveList', movieSchema);
+const movieModel = new mongoose.model('movieList', movieSchema);
 
 const movieSchemaJoi = {
     title: Joi.string().min(3).required(),
