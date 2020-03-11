@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -27,6 +28,11 @@ const userSchema = new mongoose.Schema({
     },
     isAdmin: Boolean
 });
+
+userSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({id: this._id, isAdmin: this.isAdmin}, 'thoughtworks');
+    return token;
+}
 
 const userModel = new mongoose.model('User', userSchema);
 

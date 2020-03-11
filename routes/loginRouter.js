@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 const Joi = require('joi');
 const {userModel} = require('../models/userModel');
-const jwt = require('jsonwebtoken');
 
 const userSchemaJoi = {
     email: Joi.string().min(4).required().email(),
@@ -27,7 +26,7 @@ router.post('/',  async function (req, res) {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if(!validPassword) return res.status(400).send("Invalid email or password");
 
-    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, 'thoughtworks');
+    const token = user.generateAuthToken();
 
     res.header('x-Access-Token', token).send("Login success");
 });

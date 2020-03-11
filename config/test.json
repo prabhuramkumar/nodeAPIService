@@ -1,0 +1,7 @@
+{
+    "name": "Node API Project - Test", 
+    "mail": {
+        "password": "app_password"
+    },
+    "dbConnection": "mongodb+srv://admin:admin@cluster0-ns02p.mongodb.net/test?retryWrites=true&w=majority"
+}

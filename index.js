@@ -18,13 +18,13 @@ app.use(express.static('public'));
 app.use(morgan('tiny'));
 app.use(helmet());
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0-ns02p.mongodb.net/movieDB?retryWrites=true&w=majority').then(() => {
-    console.log("connected to mongoDB");
+const envName = config.get('name');
+const db = config.get('dbConnection');
+mongoose.connect(db).then(() => {
+    console.log("connected to", envName);
 }).catch(e => {
     console.log("Error connecting to mongoDB");
 });
-
-console.log(config.get('name'));
 
 app.use('/api/generes', generesRouter);
 app.use('/api/movies', movieListRouter);
@@ -32,6 +32,7 @@ app.use('/api/register', userRouter);
 app.use('/api/login', login);
 app.use(error);
 
-app.listen(port, ()=> {
+const server = app.listen(port, ()=> {
     console.log("Listening on " + port);
 });
+module.exports = server;
